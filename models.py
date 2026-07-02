@@ -14,6 +14,7 @@ class JourneyStage(Enum):
     TRIAL_ATTENDED  = "trial_attended"   # Showed up to trial
     TRIAL_NO_SHOW   = "trial_no_show"    # Missed the trial
     BACKEND_INVITED = "backend_invited"  # Invited to join the main (backend) program
+    INTAKE_INVITED  = "intake_invited"   # Skipped the trial — invited straight into the program
     ENROLLED        = "enrolled"         # Signed up for backend program
     DROPPED         = "dropped"          # Unresponsive or disqualified
 
