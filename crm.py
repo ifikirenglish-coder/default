@@ -1,5 +1,5 @@
 from models import Customer, JourneyStage
-from journey import qualification_score, is_qualified
+from journey import qualification_score, is_qualified, recommend_offer
 from qualification import missing_profile_fields
 
 
@@ -25,10 +25,14 @@ def suggest_next_action(customer: Customer) -> str:
         return "Profile complete — mark as QUALIFIED and prepare trial invite."
 
     elif stage == JourneyStage.QUALIFIED:
-        if score >= 50:
-            return f"Score {score}/100 — invite to the free trial class now."
-        else:
-            return f"Score {score}/100 — nurture further before offering the trial."
+        if score < 50:
+            return f"Score {score}/100 — nurture further before making an offer."
+        if recommend_offer(customer) == "direct_intake":
+            return f"Score {score}/100, high urgency — skip the trial and invite them to join intake directly."
+        return f"Score {score}/100 — invite to the free trial class now."
+
+    elif stage == JourneyStage.INTAKE_INVITED:
+        return "Follow up to confirm they're joining. Address objections and get them enrolled directly."
 
     elif stage == JourneyStage.TRIAL_INVITED:
         return "Follow up to confirm attendance. Handle any objections or reschedule if needed."
